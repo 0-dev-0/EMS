@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>{{ employee.first_name }} {{ employee.last_name }} – Attendance</h3>
+<p><strong>Attendance:</strong> {{ attendance_percent }}%</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% for day in attendance_days %}
+  <tr>
+      <td>{{ day.date }}</td>
+      <td>
+          {% if day.status == "Present" %}
+              <span class="badge badge-success">Present</span>
+          {% elif day.status == "Absent" %}
+              <span class="badge badge-danger">Absent</span>
+          {% elif day.status == "Leave" %}
+              <span class="badge badge-warning">Leave</span>
+          {% else %}
+              <span class="badge badge-info">Holiday</span>
+          {% endif %}
+      </td>
+      <td>
+          {% if day.status != "Holiday" %}
+              <a href="{% url 'update_attendance' employee.id day.date %}"
+                class="btn btn-warning btn-sm">
+                  <i class="fas fa-edit"></i>
+              </a>
+          {% endif %}
+      </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}

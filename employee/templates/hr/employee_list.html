@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+        Employees
+    </h3>
+    <div class="card-tools">
+        <a href="{% url 'create_employee' %}" class="btn btn-primary btn-sm">
+           <i class="fas fa-plus"></i> 
+                Add Employee
+        </a>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+      </tr>
+
+      <tbody>
+      {% for emp in employees %}
+      <tr>
+          <td>
+              <a href="{% url 'employee_detail' emp.pk %}">
+                  {{ emp.first_name }} {{ emp.last_name }}
+              </a>
+          </td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.department }}</td>
+          <td>
+              <a href="{% url 'update_employee' emp.pk %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'delete_employee' emp.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

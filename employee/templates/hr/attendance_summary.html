@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Attendance Summary</h3>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Attendance %</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in data %}
+        <tr>
+          <td>{{ item.employee.first_name }} {{ item.employee.last_name }}</td>
+          <td>{{ item.attendance_percent }}%</td>
+          <td>
+            <a href="{% url 'attendance_detail' item.employee.id %}"
+               class="btn btn-info btn-sm">
+              <i class="fas fa-eye"></i> View
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center">No employees found</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

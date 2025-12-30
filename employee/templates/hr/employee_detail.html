@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Employee Details</h3>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Name:</strong> {{ employee.first_name }} {{ employee.last_name }}</p>
+          <p><strong>Email:</strong> {{ employee.email }}</p>
+          <p><strong>Department:</strong> {{ employee.department }}</p>
+          <p><strong>Position:</strong> {{ employee.position }}</p>
+          <p><strong>Date Hired:</strong> {{ employee.date_hired }}</p>
+        </div>
+
+        <div class="card-footer">
+          <a href="{% url 'employee_list' %}" class="btn btn-secondary">Back</a>
+          <a href="{% url 'update_employee' employee.id %}" class="btn btn-warning">Edit</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+{% endblock %}

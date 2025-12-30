@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2 class="mb-3">My Attendance</h2>
+
+  <!-- Attendance percentage -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Attendance Summary</h5>
+      <p class="card-text">
+        <strong>Attendance Percentage:</strong>
+        {{ attendance_percent }}%
+      </p>
+    </div>
+  </div>
+
+  <!-- Day-wise attendance -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Day-wise Attendance</h5>
+
+      <table class="table table-bordered table-hover mt-3">
+        <thead class="table-light">
+          <tr>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for day in attendance_days %}
+            <tr>
+              <td>{{ day.date }}</td>
+              <td>
+                {% if day.status == "Present" %}
+                  <span class="badge bg-success">Present</span>
+                {% elif day.status == "Absent" %}
+                  <span class="badge bg-danger">Absent</span>
+                {% elif day.status == "Leave" %}
+                  <span class="badge bg-warning text-dark">Leave</span>
+                {% else %}
+                  <span class="badge bg-secondary">{{ day.status }}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2" class="text-center text-muted">
+                No attendance records available
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

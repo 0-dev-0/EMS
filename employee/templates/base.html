@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- AdminLTE CSS -->
+  <link rel="stylesheet" href="{% static 'employee/adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'employee/adminlte/dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'employee/adminlte/dist/css/bootstrap.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{% url 'home' %}" class="brand-link">
+      <span class="brand-text font-weight-light">EMS</span>
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview">
+          <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'employee_list' %}" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Employees</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'attendance_summary' %}" class="nav-link">
+              <i class="nav-icon fas fa-calendar-check"></i>
+              <p>Attendance</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'leave_request_list' %}" class="nav-link">
+              <i class="nav-icon fas fa-envelope"></i>
+              <p>Leave Requests</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <div class="content-wrapper p-3">
+    {% block content %}{% endblock %}
+  </div>
+
+</div>
+
+<!-- JS -->
+<script src="{% static 'employee/adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'employee/adminlte/dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'employee/adminlte/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>

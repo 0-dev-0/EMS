@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <h3>Add Employee</h3>
+  </div>
+
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      <input class="form-control mb-2" name="first_name" placeholder="First Name">
+      <input class="form-control mb-2" name="last_name" placeholder="Last Name">
+      <input class="form-control mb-2" name="email" placeholder="Email">
+      <input class="form-control mb-2" name="position" placeholder="Position">
+      <input class="form-control mb-2" name="department" placeholder="Department">
+      <input class="form-control mb-2" type="date" name="date_hired">
+      <button class="btn btn-sm btn-primary">Save</button>
+      <button type="reset" class="btn btn-sm btn-warning" >Reset</button>
+      <a href="{% url 'employee_list' %}" class="btn btn-sm btn-danger btn-secondary">
+        Back
+      </a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

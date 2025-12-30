@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Leave Request Detail</h3>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Employee:</strong> {{ leave.employee.first_name }} {{ leave.employee.last_name }}</p>
+          <p><strong>From:</strong> {{ leave.start_date }}</p>
+          <p><strong>To:</strong> {{ leave.end_date }}</p>
+          <p><strong>Reason:</strong> {{ leave.reason }}</p>
+          <p><strong>Status:</strong>
+            {% if leave.status == "Approved" %}
+              <span class="badge bg-success">Approved</span>
+            {% elif leave.status == "Rejected" %}
+              <span class="badge bg-danger">Rejected</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </p>
+
+          <a href="{% url 'my_leave_requests' %}" class="btn btn-secondary">Back</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+{% endblock %}
