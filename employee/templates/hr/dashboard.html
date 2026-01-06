@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-4 col-6">
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3>{{ total_employees }}</h3>
+        <p>Total Employees</p>
+      </div>
+      <div class="icon"><i class="fas fa-users"></i></div>
+      <a href="{% url 'employee_list' %}" class="small-box-footer">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-4 col-6">
+    <div class="small-box bg-success">
+      <div class="inner">
+        <h3>{{ total_attendance }}</h3>
+        <p>Attendance Records</p>
+      </div>
+      <div class="icon"><i class="fas fa-calendar-check"></i></div>
+      <a href="{% url 'attendance_summary' %}" class="small-box-footer">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-4 col-6">
+    <div class="small-box bg-warning">
+      <div class="inner">
+        <h3>{{ total_leave_requests }}</h3>
+        <p>Leave Requests</p>
+      </div>
+      <div class="icon"><i class="fas fa-envelope"></i></div>
+      <a href="{% url 'leave_request_list' %}" class="small-box-footer">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

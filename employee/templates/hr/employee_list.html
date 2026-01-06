@@ -20,6 +20,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Department</th>
+        <th>Actions</th>
       </tr>
 
       <tbody>
@@ -34,7 +35,13 @@
           <td>{{ emp.department }}</td>
           <td>
               <a href="{% url 'update_employee' emp.pk %}" class="btn btn-sm btn-warning">Edit</a>
-              <a href="{% url 'delete_employee' emp.pk %}" class="btn btn-sm btn-danger">Delete</a>
+
+              <!-- POST form to delete to match delete_employee view (POST-only) -->
+              <form method="post" action="{% url 'delete_employee' emp.pk %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{ emp.first_name }} {{ emp.last_name }}?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
+
           </td>
       </tr>
       {% endfor %}

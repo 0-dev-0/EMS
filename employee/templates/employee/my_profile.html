@@ -14,6 +14,16 @@
       <td>{{ employee.last_name }}</td>
     </tr>
     <tr>
+      <th>Username</th>
+      <td>
+        {% if request.user and request.user.username %}
+          {{ request.user.username }}
+        {% else %}
+          <span class="text-muted">Not assigned</span>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
       <th>Email</th>
       <td>{{ employee.email }}</td>
     </tr>
@@ -31,7 +41,7 @@
     </tr>
   </table>
 
-  <a href="{% url 'edit_profile' %}" class="btn btn-secondary">
+  <a href="{% url 'edit_my_profile' %}" class="btn btn-secondary">
     Edit Profile
   </a>
 </div>

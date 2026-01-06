@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from .models import Attendance, Holiday
 from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 
 def calculate_attendance_percentage(employee):
     start_date = employee.date_hired
@@ -58,7 +59,16 @@ def is_hr(user):
     return user.is_authenticated and user.groups.filter(name='HR').exists()
 
 def is_employee(user):
-    return user.is_authenticated and user.groups.filter(name='Employee').exists()
+    """Check if user is an employee. HR users are also employees."""
+    if not user.is_authenticated:
+        return False
 
-hr_required = user_passes_test(is_hr)
-employee_required = user_passes_test(is_employee)
+    # HR users are employees too
+    if user.groups.filter(name='HR').exists():
+        return True
+
+    # If user has a linked Employee record
+    return hasattr(user, 'employee')
+
+hr_required = method_decorator(user_passes_test(is_hr), name='dispatch')
+employee_required = method_decorator(user_passes_test(is_employee), name='dispatch')

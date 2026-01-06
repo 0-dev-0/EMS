@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width:600px;margin:20px auto;">
+  <h2>Create Account</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="form" novalidate>
+    {% csrf_token %}
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="{{ form.first_name.id_for_label }}">First Name</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+          <span class="text-danger">{{ form.first_name.errors }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group col-md-6">
+        <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+          <span class="text-danger">{{ form.last_name.errors }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.username.id_for_label }}">Username</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <span class="text-danger">{{ form.username.errors }}</span>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <span class="text-danger">{{ form.email.errors }}</span>
+      {% endif %}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <span class="text-danger">{{ form.password.errors }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group col-md-6">
+        <label for="{{ form.password_confirm.id_for_label }}">Confirm Password</label>
+        {{ form.password_confirm }}
+        {% if form.password_confirm.errors %}
+          <span class="text-danger">{{ form.password_confirm.errors }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="id_position">Position</label>
+        <input type="text" name="position" id="id_position" class="form-control" value="Employee">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="id_department">Department</label>
+        <input type="text" name="department" id="id_department" class="form-control" value="General">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Register</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back Home</a>
+  </form>
+</div>
+{% endblock %}

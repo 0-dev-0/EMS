@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h3>Export Employee Data</h3>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="get" id="filter-form" class="row g-3 align-items-end">
+    <div class="col-md-3">
+      <label for="start_date" class="form-label">Start Date</label>
+      <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request.GET.start_date }}">
+    </div>
+    <div class="col-md-3">
+      <label for="end_date" class="form-label">End Date</label>
+      <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request.GET.end_date }}">
+    </div>
+    <div class="col-md-3">
+      <label for="department" class="form-label">Department</label>
+      <select name="department" id="department" class="form-select">
+        <option value="">All</option>
+        {% for dept in departments %}
+          <option value="{{ dept }}" {% if request.GET.department == dept %}selected{% endif %}>{{ dept }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="employee_name" class="form-label">Employee Name</label>
+      <input type="text" name="employee_name" id="employee_name" class="form-control" value="{{ request.GET.employee_name }}">
+    </div>
+    <div class="col-md-3">
+      <label for="month" class="form-label">Month</label>
+      <select name="month" id="month" class="form-select">
+        <option value="">All</option>
+        {% for m in months %}
+          <option value="{{ m.0 }}" {% if request.GET.month == m.0|stringformat:"s" %}selected{% endif %}>{{ m.1 }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary">Search</button>
+      {% if preview %}
+        <a href="{{ download_url }}" class="btn btn-success">Download CSV</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <script>
+    document.getElementById('filter-form').addEventListener('submit', function(e) {
+      const startDate = document.getElementById('start_date').value;
+      const endDate = document.getElementById('end_date').value;
+      
+      if (startDate && endDate) {
+        if (new Date(endDate) < new Date(startDate)) {
+          e.preventDefault();
+          alert('End date cannot be earlier than start date.');
+          return false;
+        }
+      }
+    });
+  </script>
+
+  {% if preview %}
+  <div class="table-responsive mt-4">
+    <h5>Preview:</h5>
+    <table class="table table-bordered table-sm text-center align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Employee Name</th>
+          {% for day_formatted in days_formatted %}
+            <th>{{ day_formatted }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in preview %}
+          <tr>
+            <td class="text-start">{{ row.employee_name }}</td>
+            {% for status in row.statuses %}
+              <td>{{ status }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

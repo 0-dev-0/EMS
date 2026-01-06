@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title">Leave Request Detail (HR)</h3>
+        </div>
+
+        <div class="card-body">
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p><strong>Employee:</strong><br>
+                {{ leave.employee.first_name }} {{ leave.employee.last_name }}
+              </p>
+            </div>
+
+            <div class="col-md-6">
+              <p><strong>Status:</strong><br>
+                {% if leave.status == "Approved" %}
+                  <span class="badge badge-success">Approved</span>
+                {% elif leave.status == "Rejected" %}
+                  <span class="badge badge-danger">Rejected</span>
+                {% else %}
+                  <span class="badge badge-warning">Pending</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p><strong>From:</strong><br>{{ leave.start_date }}</p>
+            </div>
+
+            <div class="col-md-6">
+              <p><strong>To:</strong><br>{{ leave.end_date }}</p>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <p><strong>Reason:</strong></p>
+            <div class="border rounded p-2 bg-light">
+              {{ leave.reason|default:"—" }}
+            </div>
+          </div>
+
+          {% if leave.status == "Pending" %}
+          <form method="post"
+                action="{% url 'leave_approval_action' leave.id %}"
+                class="d-flex gap-2">
+            {% csrf_token %}
+
+            <button type="submit"
+                    name="action"
+                    value="approve"
+                    class="btn btn-success">
+              Approve
+            </button>
+
+            <button type="submit"
+                    name="action"
+                    value="reject"
+                    class="btn btn-danger">
+              Reject
+            </button>
+          </form>
+          {% endif %}
+
+        </div>
+
+        <div class="card-footer">
+          <a href="{% url 'leave_approvals' %}" class="btn btn-secondary">
+            Back to Leave Approvals
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+{% endblock %}

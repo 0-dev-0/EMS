@@ -1,42 +1,137 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Employee</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
 
-<h2>Update Employee</h2>
+      {% if success %}
+        <div class="alert alert-success" role="alert">
+          Employee updated successfully.
+        </div>
+      {% endif %}
 
-{% if success %}
-<p style="color:green;">Updated successfully</p>
-{% endif %}
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title">Update Employee</h3>
+        </div>
 
-<form method="post">
-{% csrf_token %}
+        <form method="post" action="{% url 'update_employee' employee.id %}">
+          {% csrf_token %}
+          <div class="card-body">
 
-<div class="form-group">
-    <label>Employee</label>
-    <input class="form-control" value="{{ attendance.employee }}" disabled>
+            <!-- First Name -->
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input
+                id="first_name"
+                type="text"
+                name="first_name"
+                class="form-control"
+                value="{{ employee.first_name }}"
+                required
+              >
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input
+                id="last_name"
+                type="text"
+                name="last_name"
+                class="form-control"
+                value="{{ employee.last_name }}"
+                required
+              >
+            </div>
+
+            <!-- Username (User model field) -->
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                class="form-control"
+                value="{{ employee.user.username }}"
+                placeholder="Set login username"
+                required
+              >
+              <small class="text-muted">
+                Used for login. Must be unique.
+              </small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                class="form-control"
+                value="{{ employee.email }}"
+                required
+              >
+            </div>
+
+            <!-- Position -->
+            <div class="form-group">
+              <label for="position">Position</label>
+              <input
+                id="position"
+                type="text"
+                name="position"
+                class="form-control"
+                value="{{ employee.position }}"
+              >
+            </div>
+
+            <!-- Department -->
+            <div class="form-group">
+              <label for="department">Department</label>
+              <input
+                id="department"
+                type="text"
+                name="department"
+                class="form-control"
+                value="{{ employee.department }}"
+              >
+            </div>
+
+            <!-- Date Hired -->
+            <div class="form-group">
+              <label for="date_hired">Date Hired</label>
+              <input
+                id="date_hired"
+                type="date"
+                name="date_hired"
+                class="form-control"
+                value="{{ employee.date_hired|date:'Y-m-d' }}"
+              >
+            </div>
+
+            {% if form_errors %}
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  {% for err in form_errors %}
+                    <li>{{ err }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+
+          </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{% url 'employee_detail' employee.id %}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </section>
 </div>
-
-<div class="form-group">
-    <label>Date</label>
-    <input class="form-control" value="{{ attendance.date }}" disabled>
-</div>
-
-<div class="form-group">
-    <label>Status</label>
-    <select name="status" class="form-control">
-        <option value="Present" {% if attendance.status == 'Present' %}selected{% endif %}>Present</option>
-        <option value="Absent" {% if attendance.status == 'Absent' %}selected{% endif %}>Absent</option>
-        <option value="Leave" {% if attendance.status == 'Leave' %}selected{% endif %}>Leave</option>
-        <option value="Holiday">Holiday</option>
-    </select>
-</div>
-
-<button class="btn btn-primary">Save</button>
-</form>
-
-
-</body>
-</html>
+{% endblock %}

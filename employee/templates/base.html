@@ -22,6 +22,28 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
+    <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-user"></i>
+            <span class="ml-2">
+              {% if employee_name %}
+                {{ employee_name }}
+              {% else %}
+                {{ user.get_full_name|default:user.username }}
+              {% endif %}
+            </span>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <a href="{% url 'logout' %}" class="dropdown-item">
+              <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+          </div>
+        </li>
+      {% endif %}
+    </ul>
   </nav>
 
   <!-- Sidebar -->
@@ -32,30 +54,76 @@
     <div class="sidebar">
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview">
-          <li class="nav-item">
-            <a href="{% url 'dashboard' %}" class="nav-link">
-              <i class="nav-icon fas fa-chart-bar"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'employee_list' %}" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Employees</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'attendance_summary' %}" class="nav-link">
-              <i class="nav-icon fas fa-calendar-check"></i>
-              <p>Attendance</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'leave_request_list' %}" class="nav-link">
-              <i class="nav-icon fas fa-envelope"></i>
-              <p>Leave Requests</p>
-            </a>
-          </li>
+          {% if user.is_authenticated %}
+            <!-- Common Navigation for All Users -->
+            <li class="nav-item">
+              <a href="{% url 'dashboard' %}" class="nav-link">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'my_attendance' %}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-check"></i>
+                <p>My Attendance</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'my_leave_requests' %}" class="nav-link">
+                <i class="nav-icon fas fa-envelope"></i>
+                <p>My Leave Requests</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'apply_leave' %}" class="nav-link">
+                <i class="nav-icon fas fa-plus-circle"></i>
+                <p>Apply for Leave</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'my_profile' %}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>My Profile</p>
+              </a>
+            </li>
+            
+            <!-- HR-Only Sections -->
+            {% if user.groups.all %}
+              {% if user.groups.all.0.name == 'HR' %}
+                <li class="nav-header">HR Management</li>
+                <li class="nav-item">
+                  <a href="{% url 'employee_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>All Employees</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'attendance_summary' %}" class="nav-link">
+                    <i class="nav-icon fas fa-calendar-alt"></i>
+                    <p>All Attendance</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'leave_request_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>All Leave Requests</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'leave_approvals' %}" class="nav-link">
+                    <i class="nav-icon fas fa-check-circle"></i>
+                    <p>Leave Approvals</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'export_data_page' %}" class="nav-link">
+                    <i class="nav-icon fas fa-file-export"></i>
+                    <p>Export Data</p>
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endif %}
         </ul>
       </nav>
     </div>

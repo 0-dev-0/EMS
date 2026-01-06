@@ -13,6 +13,14 @@
 
         <div class="card-body">
           <p><strong>Name:</strong> {{ employee.first_name }} {{ employee.last_name }}</p>
+
+          <p><strong>Username:</strong> 
+            {% if employee.user and employee.user.username %} 
+            {{ employee.user.username }} 
+            {% else %}<span class="text-muted">Not assigned</span> 
+            {% endif %}
+          </p>
+
           <p><strong>Email:</strong> {{ employee.email }}</p>
           <p><strong>Department:</strong> {{ employee.department }}</p>
           <p><strong>Position:</strong> {{ employee.position }}</p>

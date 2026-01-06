@@ -9,40 +9,38 @@
     <h3 class="card-title">Create Leave Request</h3>
   </div>
 
-  <form method="post">
+  <form method="post" novalidate>
     {% csrf_token %}
     <div class="card-body">
 
       <div class="form-group">
-        <label>Employee</label>
-        <select name="employee" class="form-control" required>
-          {% for emp in employees %}
-            <option value="{{ emp.id }}">
-              {{ emp.first_name }} {{ emp.last_name }}
-            </option>
-          {% endfor %}
-        </select>
+        <label for="{{ form.start_date.id_for_label }}">From</label>
+        {{ form.start_date }}
+        {% if form.start_date.errors %}
+          <span class="text-danger">{{ form.start_date.errors }}</span>
+        {% endif %}
       </div>
 
       <div class="form-group">
-        <label>From</label>
-        <input type="date" name="start_date" class="form-control" required>
+        <label for="{{ form.end_date.id_for_label }}">To</label>
+        {{ form.end_date }}
+        {% if form.end_date.errors %}
+          <span class="text-danger">{{ form.end_date.errors }}</span>
+        {% endif %}
       </div>
 
       <div class="form-group">
-        <label>To</label>
-        <input type="date" name="end_date" class="form-control" required>
-      </div>
-
-      <div class="form-group">
-        <label>Reason</label>
-        <textarea name="reason" class="form-control"></textarea>
+        <label for="{{ form.reason.id_for_label }}">Reason</label>
+        {{ form.reason }}
+        {% if form.reason.errors %}
+          <span class="text-danger">{{ form.reason.errors }}</span>
+        {% endif %}
       </div>
 
     </div>
 
     <div class="card-footer">
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary" type="submit">Submit</button>
       <a href="{% url 'my_leave_requests' %}" class="btn btn-secondary">Cancel</a>
     </div>
   </form>

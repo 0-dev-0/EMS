@@ -16,7 +16,7 @@
   <tbody>
   {% for day in attendance_days %}
   <tr>
-      <td>{{ day.date }}</td>
+      <td>{{ day.date|date:"M. d, Y" }}</td>
       <td>
           {% if day.status == "Present" %}
               <span class="badge badge-success">Present</span>
@@ -24,8 +24,10 @@
               <span class="badge badge-danger">Absent</span>
           {% elif day.status == "Leave" %}
               <span class="badge badge-warning">Leave</span>
-          {% else %}
+          {% elif day.status == "Holiday" %}
               <span class="badge badge-info">Holiday</span>
+          {% else %}
+              <span class="badge badge-secondary">{{ day.status }}</span>
           {% endif %}
       </td>
       <td>
